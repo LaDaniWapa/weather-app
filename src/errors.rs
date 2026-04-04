@@ -1,6 +1,6 @@
-use axum::response::{IntoResponse, Response};
-use reqwest::StatusCode;
 use thiserror::Error;
+
+pub type Result<T> = std::result::Result<T, AppError>;
 
 #[derive(Error, Debug)]
 pub enum AppError {
@@ -8,16 +8,6 @@ pub enum AppError {
     Network(#[from] reqwest::Error),
     #[error("City not found: {0}")]
     CityNotFound(String),
-}
-
-impl IntoResponse for AppError {
-    fn into_response(self) -> Response {
-        match self {
-            AppError::Network(err) => (StatusCode::BAD_GATEWAY, err.to_string()),
-            AppError::CityNotFound(city) => {
-                (StatusCode::NOT_FOUND, format!("City not found \"{city}\""))
-            }
-        }
-        .into_response()
-    }
+    #[error("IO error: {0}")]
+    Io(#[from] std::io::Error),
 }
