@@ -1,10 +1,10 @@
-use crossterm::terminal::{disable_raw_mode, enable_raw_mode, LeaveAlternateScreen, EnterAlternateScreen};
-use std::io::{stdout};
+use crate::app::App;
+use crate::errors::Result;
+use crossterm::terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen};
 use crossterm::ExecutableCommand;
 use ratatui::backend::CrosstermBackend;
 use ratatui::Terminal;
-use crate::app::App;
-use crate::errors::{AppError, Result};
+use std::io::stdout;
 
 mod weather;
 mod errors;
